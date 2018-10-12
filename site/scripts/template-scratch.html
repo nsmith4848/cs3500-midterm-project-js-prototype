@@ -1,0 +1,66 @@
+
+
+<li class="catalog-card">
+  <a href="details?id={{ pokemon.pokemonId }}">
+    {{ pokemon.name }}
+  </a>
+
+  <img src="{{ pokemon.icon }}">
+</li>
+
+
+
+
+<div class="profile-card">
+  <div class="card-titlebar">
+    <a href="catalog">
+      Back
+    </a>
+
+    <h2>
+      {{ pokemon.speciesName }}
+    </h2>
+
+    <!-- type icon(s)? or a pokeball icon? -->
+  </div>
+
+  <div class="card-body">
+    <img src="{{ pokemon.spriteUrl }}">
+    
+    <div>
+      <h3>
+        Type Info
+      </h3>
+
+      <p>
+        {{ pokemon.type }}
+      </p>
+    </div>
+
+    <div>
+      <h3>
+        Description
+      </h3>
+
+      <p>
+        {{ pokemon.description }}
+      </p>
+    </div>
+    
+  </div>
+</div>
+
+
+<nav>
+  <a href="./catalog">
+    Catalog
+  </a>
+
+  <a href="./about-site">
+    About Site
+  </a>
+
+  <a href="./about-us">
+    About Us
+  </a>
+</nav>

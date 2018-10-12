@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="../common/scripts/vue-dev.js">
+    </script>
+
+    <script src="../common/scripts/api-calls.js">
+    </script>
+  </head>
+
+  <body>
+    <div id="app-container">
+      <nav-bar>
+      </nav-bar>
+
+      <ul id="pokedex-entries">
+        <pokedex-entry class="pokedex-entry"
+          v-for="entry in entries"
+          v-bind:entry="entry"
+          v-bind:key="entry.pokemonId">
+        </pokedex-entry>
+      </ul>
+    </div>
+    
+    <script src="./catalog.js">
+    </script>
+  </body>
+</html>
