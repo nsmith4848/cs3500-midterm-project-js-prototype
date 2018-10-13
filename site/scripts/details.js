@@ -10,57 +10,77 @@ details from /pokemon-species/
   flavor text entries
 
 
+todo:
+  genus (Foo Pokemon)
+
+
 */
 class PokemonDetails {
   constructor(
     {
+      pokemonId,
       speciesName,
 
       weight,
       height,
 
-      spriteUrl,
+      spriteString,
 
       flavorText,
 
-      types
+      type1,
+      type2
     }
   ) {
+    this.pokemonId = pokemonId;
     this.speciesName = speciesName;
 
     this.weight = weight;
     this.height = height;
 
-    this.spriteUrl = spriteUrl;
+    this.spriteString = spriteString;
 
     this.flavorText = flavorText;
 
-    // split into type1 type2?
-    this.types = types;
+    this.type1 = type1;
+    this.type2 = type2;
 
     // found in versions?
   }
 }
 
+
+
+
 var placeholderDetails = new PokemonDetails(
   {
+    pokemonId: '000',
     speciesName: 'loading',
     weight: 'loading',
     height: 'loading',
-    // spriteUrl? use missingo?
-    flavorText: 'loading...'
+    spriteString: './images/missingo.png',
+    flavorText: 'loading...',
+    type1: 'bird',
+    type2: 'normal'
   }
 );
 
+var pokemonDetails = placeholderDetails;
 
 
-var pokemonSpecies = URLSearchParams.get(
+let urlSearchParams = new URLSearchParams(
+  window.location
+);
+
+var pokemonSpecies = urlSearchParams.get(
   'pokemon-species'
 );
 
 
 // todo: add in store/restore technique from catalog page
-var pokemonDetails = localStorage.getItem(
+
+/*
+var storedDetails = localStorage.getItem(
   pokemonSpecies
 );
 
@@ -75,28 +95,46 @@ if (
     pokemonSpecies
   );
 }
-
+*/
 
 // template definitions
 
 // profile(/details?)
+
 Vue.component(
-  'pokemon-details',
+  'pokemon-details-card',
   {
     props: [
       'details'
     ],
     template: `
-    `
-  }
-)
+    <div class="pokemon-card">
+      <h3>
+        {{ details.speciesName }}
+      </h3>
 
-var pokemonDetailsElement = new Vue(
-  {
-    el: '#pokemon-details',
-    data: {
-      details: pokemonDetails
-    }
+      <div>
+        <img v-bind:src='
+          details.spriteString
+          ? details.spriteString
+          : "./images/missingo.png"
+        '>
+
+        <p>
+          Types:
+          <br>
+
+          <span>
+            {{ details.type1 }}
+          </span>
+
+          <span v-if="details.type2">
+            {{ details.type2 }}
+          </span>
+        </p>
+      </div>
+    </div>
+    `
   }
 );
 
@@ -146,4 +184,15 @@ function onPokemonDetailsRequestLoaded(
 
 
 
+// root instance
+new Vue(
+  {
+    el: '#app-container',
+    data: {
+      pages: pages,
+      currentPageId: 'details',
+      pokemonDetails: pokemonDetails
+    }
+  }
+);
 

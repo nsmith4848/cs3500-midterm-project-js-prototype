@@ -1,16 +1,27 @@
 <!doctype html>
 <html>
   <head>
-    <script src="../common/scripts/vue-dev.js">
+    <meta charset="utf-8"/>
+
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="./main.css"/>
+
+    <script src="./libs/vue-dev.js">
     </script>
 
-    <script src="../common/scripts/api-calls.js">
+    <script src="./scripts/common.js">
     </script>
   </head>
 
   <body>
     <div id="app-container">
-      <nav-bar>
+      <nav-bar v-bind:pages="pages"
+        v-bind:current-page-id="currentPageId">
       </nav-bar>
 
       <ul id="pokedex-entries">
@@ -22,7 +33,9 @@
       </ul>
     </div>
     
-    <script src="./catalog.js">
+
+    <script src="./scripts/catalog.js"
+      defer="defer">
     </script>
   </body>
 </html>

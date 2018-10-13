@@ -17,6 +17,29 @@
   // site url stuff
   var detailsUrl = "./details.html?pokemon-species="; // pokemonSpecies appended
 
+  var pages = [
+    {
+      id: 'welcome',
+      title: 'Welcome',
+      url: './index.html'
+    },
+    {
+      id: 'pokedex',
+      title: 'Pokedex',
+      url: './catalog.html'
+    },
+    {
+      id: 'about-site',
+      title: 'About Site',
+      url: './about-site.html'
+    },
+    {
+      id: 'about-us',
+      title: 'About Us',
+      url: './about-us.html'
+    }
+  ];
+
 /********************************/
 
 
@@ -36,10 +59,12 @@
         reject
       ) {
         var request = new XMLHttpRequest();
+
         request.open(
           "GET",
           url
         );
+
         request.onload = function(
           event
         ) {
@@ -58,13 +83,13 @@
               this.statusText
             );
           }
-        };
+        }; // onload callback
+
         request.send();
       } // executor
     ); // promise
-    
 
-    return;
+    return promise;
   } // makeRequestToApi
 
   // returns a promise which resolves
@@ -80,7 +105,14 @@
         reject
       ) {
         let request = new XMLHttpRequest();
+
         request.responseType = 'arraybuffer';
+
+        request.open(
+          'GET',
+          url
+        );
+
         request.onload = function(
           event
         ) {
@@ -99,11 +131,8 @@
               this.statusText
             );
           }
-        }; // onload function
-        request.open(
-          'GET',
-          url
-        );
+        }; // onload callback
+
         request.send();
       } // executor
     ); // promise
@@ -146,7 +175,7 @@
 
 
 /********************************/
-/****  ??? persistence? data? ???  ****/
+/****  persistence  ****/
 /********************************/
 
   function convertImageToBase64String(
@@ -212,19 +241,14 @@
         resolve,
         reject
       ) {
-        let storedString = retrieveSpriteStringFromLocalStorage(
+        let spriteString = retrieveSpriteStringFromLocalStorage(
           pokemonId
         );
 
-        let spriteString;
-
         if (
-          storedString !== undefined
-          && storedString !== null
+          spriteString !== undefined
+          && spriteString !== null
         ) {
-          spriteString = 'data:image/png;base64,'
-          + storedString;
-
           resolve(
             spriteString
           );
@@ -242,7 +266,8 @@
           function(
             response
           ) {
-            spriteString = convertImageToBase64String(
+            spriteString = 'data:image/png;base64,'
+            + convertImageToBase64String(
               response
             );
 
@@ -277,6 +302,23 @@
         resolve,
         reject
       ) {
+        let storedEntries = localStorage.getItem(
+          'pokedexEntries'
+        );
+
+        if (
+          storedEntries !== undefined
+          && storedEntries !== null
+        ) {
+          let pokedexEntries = restoreEntries(
+            storedEntries
+          );
+
+          resolve(
+            pokedexEntries
+          );
+        }
+
         // make request to api for pokedex
         let requestPromise = makeRequestToApi(
           apiPokedexUrl
@@ -285,16 +327,21 @@
           function(
             response
           ) {
-            //
+            // json parse?
+            // parse response into entries
           }, // accept callback
           function(
             reason
           ) {
-            //
+            reject(
+              reason
+            );
           } // reject callback
-        )
+        ); // then
       } // executor
     );
+
+    return promise;
   }
 
 /********************************/

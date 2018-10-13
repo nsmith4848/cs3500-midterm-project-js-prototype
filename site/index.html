@@ -1,32 +1,43 @@
 <!doctype html>
 <html>
   <head>
-    <!-- todo meta tags -->
+    <meta charset="utf-8"/>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="./main.css"/>
+
+    <script src="./libs/vue-dev.js">
     </script>
 
-    <script src="scripts/template-definitions.js">
+    <script src="./scripts/common.js">
     </script>
   </head>
 
   <body>
-    <nav>
-      <a href="./catalog/">
-        Catalog
-      </a>
+    <div id="app-container">
+      <nav-bar v-bind:pages="pages"
+        v-bind:current-page-id="currentPageId">
+      </nav-bar>
 
-      <a href="./details/?pokemon-species=oddish">
-        Details
-      </a>
-    </nav>
+      <h3>
+        welcome to the site!
+      </h3>
 
-    <!-- ??? -->
-    <p>
-      some words introducing project
-    </p>
+      <p>
+        a few words introducing the site
+      </p>
 
-    <script src="scripts/index.js"
+      <p>
+        5 pages, with details accessed by selecting an entry in the pokedex
+      </p>
+    </div>
+
+    <script src="./scripts/welcome.js"
       defer="defer">
     </script>
   </body>
