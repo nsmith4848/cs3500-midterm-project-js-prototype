@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="./main.css"/>
+
+    <script src="./libs/vue-dev.js">
+    </script>
+
+    <script src="./scripts/common.js">
+    </script>
+  </head>
+
+  <body>
+    <div id="app-container">
+      <nav-bar v-bind:pages="pages"
+        v-bind:current-page-id="currentPageId">
+      </nav-bar>
+
+      <h3>
+        about the makers of the site
+      </h3>
+
+      <p>
+        students at wmu
+      </p>
+
+      <p>
+        what we each did
+      </p>
+    </div>
+
+    <script src="./scripts/about-us.js"
+      defer="defer">
+    </script>
+  </body>
+</html>

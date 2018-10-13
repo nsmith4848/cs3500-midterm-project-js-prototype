@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="./main.css"/>
+
+    <script src="./libs/vue-dev.js">
+    </script>
+
+    <script src="./scripts/common.js">
+    </script>
+  </head>
+
+  <body>
+    <div id="app-container">
+      <nav-bar v-bind:pages="pages"
+        v-bind:current-page-id="currentPageId">
+      </nav-bar>
+
+      <h3>
+        about the site!
+      </h3>
+
+      <p>
+        purpose
+      </p>
+
+      <p>
+        tech used to make
+      </p>
+
+      <p>
+        links to things used
+      </p>
+    </div>
+
+    <script src="./scripts/about-site.js"
+      defer="defer">
+    </script>
+  </body>
+</html>

@@ -1,199 +1,249 @@
 
 
 var pokedexEntries = [];
+// initialized to empty array
+// avoid it being undefined
+// when vue components access it
 
-var storedEntries = localStorage.getItem(
-  'pokedexEntries'
-);
 
-if (
-  storedEntries === undefined
-  || storedEntries === null
-) {
-  getPokedexEntries();
-}
-else {
-  restoreEntries(
-    storedEntries
-  );
-}
+getPokedexEntries();
+// asynchronously gets the pokedex entries
+// either by restoring from local storage
+// or by requesting from the api and then
+// adds them to the pokedex entries
 
 
 
-// template definitions
-Vue.component(
-  'pokedex-entry',
-  {
-    props: [
-      'entry'
-    ],
-    template: `
-      <li>
-        <a :href="entry.detailsUrl">
-          <span>
-            {{ entry.pokemonId }}
-          </span>
+/********************************/
+/****  template definitions  ****/
+/********************************/
 
-          {{ entry.pokemonSpeciesName }}
-        </a>
-      </li>
-    `
-  }
-);
+  Vue.component(
+    'pokedex-entry',
+    {
+      props: [
+        'entry'
+      ],
+      template: `
+        <li>
+          <a :href="entry.detailsUrl">
+            <span>
+              {{ entry.pokemonId }}
+            </span>
 
-
-var pokedexElement = new Vue(
-  {
-    el: '#pokedex-entries',
-    data: {
-      entries: pokedexEntries
+            {{ entry.pokemonSpeciesName }}
+          </a>
+        </li>
+      `
     }
-  }
-);
-
-
-
-// api call and parsing response
-
-function getPokedexEntries() {
-  makeRequestToApi(
-    apiPokedexUrl,
-    onPokedexRequestLoaded
-  );
-} // getPokedexEntries
-
-function onPokedexRequestLoaded(
-  xhr
-) {
-  //*/
-  console.log(
-    'pokedex request loaded'
   );
 
-  console.log(
-    xhr
-  );
-  //*/
-  
-  let status = xhr.status;
-  if (
-    status >= 200
-    && status < 300
+/********************************/
+
+
+/********************************/
+/****  api access  ****/
+/********************************/
+
+  function parseResponseIntoPokedexEntries(
+    response
   ) {
+    /*/
+    console.log(
+      'parsing response data'
+    );
+    //*/
     let responseData = JSON.parse(
-      xhr.responseText
+      response
     );
-    
-    parseResponseDataIntoPokedexEntries(
-      responseData
+
+    responseData.pokemon_entries.forEach(
+      ( item ) => {
+        let pokedexEntry = {
+          pokemonId: item.entry_number,
+          pokemonSpeciesName: item.pokemon_species.name,
+          detailsUrl: detailsUrlForPokemon(
+            item.pokemon_species.name
+          )
+        };
+
+        /*/
+        console.log(
+          'entry: '
+          + pokedexEntry
+        );
+        //*/
+        
+        pokedexEntries.push(
+          pokedexEntry
+        );
+      }
+    ); // for each
+
+    // store the entries to avoid having
+    // to request them again
+    storeEntries(
+      pokedexEntries
     );
-  }
-  else {
-    //*/
-    console.error(
-      'status code: '
-      + status
-    );
-    //*/
-  }
-} // onPokedexRequestLoaded
+  } // parseResponseIntoPokedexEntries
 
-function parseResponseDataIntoPokedexEntries(
-  responseData
-) {
-  //*/
-  console.log(
-    'parsing response data'
-  );
-  //*/
+  function makeRequestForPokedex() {
+    let promise = makeRequestToApi(
+      apiPokedexUrl
+    )
+    .then(
+      function( // accept callback
+        response
+      ) {
+        parseResponseIntoPokedexEntries(
+          response
+        );
+      }, // accept callback
+      function( // reject callback
+        reason
+      ) {
+        console.error(
+          reason
+        );
+      } // reject callback
+    ); // then
 
-  responseData.pokemon_entries.forEach(
-    ( item ) => {
-      let pokedexEntry = {
-        pokemonId: item.entry_number,
-        pokemonSpeciesName: item.pokemon_species.name,
-        detailsUrl: detailsUrl + item.pokemon_species.name
-      };
+    return promise;
+  } // makeRequestForPokedex
 
-      
-      //*/
-      console.log(
-        'entry: '
-        + pokedexEntry
-      );
-      //*/
-      
-      pokedexEntries.push(
-        pokedexEntry
-      );
-    }
-  );
+/********************************/
 
-  storeEntries(
+
+/********************************/
+/****  persistence  ****/
+/********************************/
+
+  function storeEntries(
     pokedexEntries
-  );
-} // parseResponseDataIntoPokedexEntries
+  ) {
+    entryStringsByPokemonId = {};
 
-function storeEntries(
-  pokedexEntries
-) {
-  entryStringsByPokemonId = {};
+    pokedexEntries.forEach(
+      ( entry ) => {
+        let entryString = JSON.stringify(
+          entry
+        );
 
-  pokedexEntries.forEach(
-    ( entry ) => {
-      let entryString = JSON.stringify(
+        // have to use object[ key ] notation
+        entryStringsByPokemonId[ entry.pokemonId ] = entryString;
+      }
+    ); // for each
+
+    let storedEntries = JSON.stringify(
+      entryStringsByPokemonId
+    );
+
+    localStorage.setItem(
+      'pokedexEntries',
+      storedEntries
+    );
+
+    return;
+  } // storeEntries
+
+  // restores the entries and
+  // adds them to pokedex entries
+  function restoreEntries(
+    storedEntries
+  ) {
+    // convert the stored entries
+    // from a string back to an object
+    // with the pokemonIds as keys and
+    // the stringified entries as values
+    let restoredEntries = JSON.parse(
+      storedEntries
+    );
+
+    // convert the entry strings back to
+    // objects and then add them to the
+    // pokedex entries
+    for (
+      let i = 1;
+      i <= 151;
+      i++
+    ) {
+      // have to use object[ key ] notation
+      let entryString = restoredEntries[ i ];
+
+      let entry = JSON.parse(
+        entryString
+      );
+
+      pokedexEntries.push(
         entry
       );
+    } // loop
 
-      entryStringsByPokemonId[ entry.pokemonId ] = entryString;
-    }
-  );
+    return;
+  } // restoreEntries
 
-  let storedEntries = JSON.stringify(
-    entryStringsByPokemonId
-  );
 
-  //*/
-  console.log(
-    storedEntries
-  );
-  //*/
+/********************************/
 
-  localStorage.setItem(
-    'pokedexEntries',
-    storedEntries
-  );
-}
 
-function restoreEntries(
-  storedEntries
-) {
-  restoredEntries = JSON.parse(
-    storedEntries
-  );
 
-  for (
-    let i = 1;
-    i <= 151;
-    i++
-  ) {
-    let entryString = restoredEntries[ i ];
+/********************************/
+/****  domain service?  ****/
+/********************************/
 
-    let entry = JSON.parse(
-      entryString
+  function getPokedexEntries() {
+    let promise = new Promise(
+      function(
+        resolve,
+        reject
+      ) {
+        let storedEntries = localStorage.getItem(
+          'pokedexEntries'
+        );
+
+        if (
+          storedEntries !== undefined
+          && storedEntries !== null
+        ) {
+          let pokedexEntries = restoreEntries(
+            storedEntries
+          );
+
+          resolve(
+            pokedexEntries
+          );
+        }
+
+        // make request to api for pokedex
+        makeRequestToApi(
+          apiPokedexUrl
+        )
+        .then(
+          function(
+            response
+          ) {
+            parseResponseIntoPokedexEntries(
+              response
+            );
+
+            resolve();
+          }, // accept callback
+          function(
+            reason
+          ) {
+            console.error(
+              reason
+            );
+          } // reject callback
+        ); // then
+      } // executor
     );
 
-    pokedexEntries.push(
-      entry
-    );
-  }
+    return promise;
+  } // getPokedexEntries
+  
+/********************************/
 
-  //*/
-  console.log(
-    pokedexEntries
-  );
-  //*/
-}
 
 // root instance
 new Vue(
@@ -201,7 +251,8 @@ new Vue(
     el: '#app-container',
     data: {
       pages: pages,
-      currentPageId: 'pokedex'
+      currentPageId: 'pokedex',
+      entries: pokedexEntries
     }
   }
 );

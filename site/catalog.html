@@ -24,7 +24,7 @@
         v-bind:current-page-id="currentPageId">
       </nav-bar>
 
-      <ul id="pokedex-entries">
+      <ul v-bind:entries="entries">
         <pokedex-entry class="pokedex-entry"
           v-for="entry in entries"
           v-bind:entry="entry"

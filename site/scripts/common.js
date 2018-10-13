@@ -44,6 +44,67 @@
 
 
 /********************************/
+/****  utilities  ****/
+/********************************/
+
+  function detailsUrlForPokemon(
+    pokemonId
+  ) {
+    let url = detailsUrl
+    + pokemonId;
+
+    return url;
+  } // detailsUrlForPokemon
+
+  function apiPokemonUrlForPokemon(
+    pokemonId
+  ) {
+    let url = apiPokemonUrl
+    + pokemonId
+    + '/';
+
+    return url;
+  } // apiPokemonUrlForPokemon
+
+  function apiSpeciesUrlForPokemon(
+    pokemonId
+  ) {
+    let url = apiSpeciesUrl
+    + pokemonId
+    + '/';
+
+    return url;
+  } // apiSpeciesUrlForPokemon
+
+  function spriteUrlForPokemon(
+    pokemonId
+  ) {
+    let url = spritesUrl
+    + pokemonId
+    + '.png';
+
+    return url;
+  } // spriteUrlForPokemon
+
+  function convertImageToBase64String(
+    image
+  ) {
+    let base64String = btoa(
+      String.fromCharCode.apply(
+        null,
+        new Uint8Array(
+          image
+        )
+      )
+    );
+
+    return base64String;
+  } // convertImageToBase64String
+
+/********************************/
+
+
+/********************************/
 /****  api access  ****/
 /********************************/
 
@@ -96,8 +157,7 @@
   // or rejects the response of the request
   // based on the status code
   function makeRequestForSprite(
-    url,
-    pokemonId
+    url
   ) {
     let promise = new Promise(
       function (
@@ -178,21 +238,6 @@
 /****  persistence  ****/
 /********************************/
 
-  function convertImageToBase64String(
-    image
-  ) {
-    let base64String = btoa(
-      String.fromCharCode.apply(
-        null,
-        new Uint8Array(
-          image
-        )
-      )
-    );
-
-    return base64String;
-  } // convertImageToBase64String
-
   // retrieve from local storage
   // store in local storage
 
@@ -254,16 +299,15 @@
           );
         }
 
-        let spriteUrl = spritesUrl
-        + pokemonId
-        + '.png';
-
-        let requestPromise = makeRequestForSprite(
-          spriteUrl,
+        let spriteUrl = spriteUrlForPokemon(
           pokemonId
         );
-        requestPromise.then(
-          function(
+
+        makeRequestForSprite(
+          spriteUrl
+        )
+        .then(
+          function( // accept callback
             response
           ) {
             spriteString = 'data:image/png;base64,'
@@ -282,7 +326,7 @@
               spriteString
             );
           }, // accept callback
-          function(
+          function( // reject callback
             reason
           ) {
             reject(
@@ -295,53 +339,5 @@
     
     return promise;
   } // getSpriteStringForPokemon
-
-  function getPokedexEntries() {
-    let promise = new Promise(
-      function(
-        resolve,
-        reject
-      ) {
-        let storedEntries = localStorage.getItem(
-          'pokedexEntries'
-        );
-
-        if (
-          storedEntries !== undefined
-          && storedEntries !== null
-        ) {
-          let pokedexEntries = restoreEntries(
-            storedEntries
-          );
-
-          resolve(
-            pokedexEntries
-          );
-        }
-
-        // make request to api for pokedex
-        let requestPromise = makeRequestToApi(
-          apiPokedexUrl
-        );
-        requestPromise.then(
-          function(
-            response
-          ) {
-            // json parse?
-            // parse response into entries
-          }, // accept callback
-          function(
-            reason
-          ) {
-            reject(
-              reason
-            );
-          } // reject callback
-        ); // then
-      } // executor
-    );
-
-    return promise;
-  }
 
 /********************************/
