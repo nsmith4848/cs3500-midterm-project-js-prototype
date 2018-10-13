@@ -8,9 +8,13 @@
   // api url stuff
   var baseApiUrl = 'https://pokeapi.co/api/v2/';
   // appended to base api url
-  var apiPokedexUrl = baseApiUrl + 'pokedex/2/';
-  var apiPokemonUrl = baseApiUrl + 'pokemon/'; // pokemonId appended
-  var apiSpeciesUrl = baseApiUrl + 'pokemon-species/'; // pokemonSpecies appended
+  var apiPokedexUrl = baseApiUrl
+  + 'pokedex/2/';
+  var apiPokemonUrl = baseApiUrl
+  + 'pokemon/'; // pokemonId appended
+  var apiSpeciesUrl = baseApiUrl
+  + 'pokemon-species/'; // pokemonSpecies appended
+
   var spritesUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' // pokemonId and png extension appended
 
 
@@ -48,29 +52,29 @@
 /********************************/
 
   function detailsUrlForPokemon(
-    pokemonId
+    pokemonSpecies
   ) {
     let url = detailsUrl
-    + pokemonId;
+    + pokemonSpecies;
 
     return url;
   } // detailsUrlForPokemon
 
   function apiPokemonUrlForPokemon(
-    pokemonId
+    pokemonSpecies
   ) {
     let url = apiPokemonUrl
-    + pokemonId
+    + pokemonSpecies
     + '/';
 
     return url;
   } // apiPokemonUrlForPokemon
 
   function apiSpeciesUrlForPokemon(
-    pokemonId
+    pokemonSpecies
   ) {
     let url = apiSpeciesUrl
-    + pokemonId
+    + pokemonSpecies
     + '/';
 
     return url;
@@ -85,6 +89,7 @@
 
     return url;
   } // spriteUrlForPokemon
+
 
   function convertImageToBase64String(
     image
@@ -126,9 +131,7 @@
           url
         );
 
-        request.onload = function(
-          event
-        ) {
+        request.onload = function() {
           let status = this.status;
 
           if (

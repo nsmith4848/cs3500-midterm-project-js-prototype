@@ -90,23 +90,7 @@ getPokedexEntries();
   function makeRequestForPokedex() {
     let promise = makeRequestToApi(
       apiPokedexUrl
-    )
-    .then(
-      function( // accept callback
-        response
-      ) {
-        parseResponseIntoPokedexEntries(
-          response
-        );
-      }, // accept callback
-      function( // reject callback
-        reason
-      ) {
-        console.error(
-          reason
-        );
-      } // reject callback
-    ); // then
+    );
 
     return promise;
   } // makeRequestForPokedex
@@ -205,39 +189,63 @@ getPokedexEntries();
           storedEntries !== undefined
           && storedEntries !== null
         ) {
-          let pokedexEntries = restoreEntries(
+          console.log(
+            'found stored entries'
+          );
+          restoreEntries(
             storedEntries
           );
 
+          // could resolve entries and have
+          // another function display them
           resolve(
-            pokedexEntries
+            1
           );
+
+          console.log(
+            'after resolve'
+          );
+          return;
         }
 
-        // make request to api for pokedex
+        console.log(
+          'before request'
+        );
+
         makeRequestToApi(
           apiPokedexUrl
         )
         .then(
-          function(
+          function( // accept callback
             response
           ) {
+            console.log(
+              'received requested entries'
+            )
             parseResponseIntoPokedexEntries(
               response
             );
 
+            // could resolve entries and have
+            // another function display them
             resolve();
-          }, // accept callback
-          function(
+          } // accept callback
+        ) // then
+        .catch(
+          function( // reject callback
             reason
           ) {
             console.error(
               reason
             );
+
+            reject(
+              reason
+            );
           } // reject callback
-        ); // then
+        ); // catch
       } // executor
-    );
+    ); // promise
 
     return promise;
   } // getPokedexEntries
