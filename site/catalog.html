@@ -1,10 +1,13 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8"/>
 
     <meta name="viewport"
-      content="width=device-width, initial-scale=1"/>
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <link rel="stylesheet"
+      href="./libs/bootstrap/css/bootstrap.css">
 
     <link rel="stylesheet"
       type="text/css"
@@ -19,18 +22,34 @@
   </head>
 
   <body>
-    <div id="app-container">
+    <div id="app-container"
+      class="container">
       <nav-bar v-bind:pages="pages"
         v-bind:current-page-id="currentPageId">
       </nav-bar>
 
-      <ul v-bind:entries="entries">
-        <pokedex-entry class="pokedex-entry"
-          v-for="entry in entries"
-          v-bind:entry="entry"
-          v-bind:key="entry.pokemonId">
-        </pokedex-entry>
-      </ul>
+      <div class="row">
+        <div class="col-md-3">
+          <p>
+            space
+          </p>
+        </div>
+        
+        <ul v-bind:entries="entries"
+          class="list-group col-md-6">
+          <li is="pokedex-entry"
+            v-for="entry in entries"
+            v-bind:entry="entry"
+            v-bind:key="entry.pokemonId">
+          </li>
+        </ul>
+
+        <div class="col-md-3">
+          <p>
+            space
+          </p>
+        </div>
+      </div>
     </div>
     
 

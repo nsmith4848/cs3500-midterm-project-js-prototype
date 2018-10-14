@@ -1,10 +1,13 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8"/>
 
     <meta name="viewport"
-      content="width=device-width, initial-scale=1"/>
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <link rel="stylesheet"
+      href="./libs/bootstrap/css/bootstrap.css">
 
     <link rel="stylesheet"
       type="text/css"
@@ -19,7 +22,8 @@
   </head>
 
   <body>
-    <div id="app-container">
+    <div id="app-container"
+      class="container">
       <nav-bar v-bind:pages="pages"
         v-bind:current-page-id="currentPageId">
       </nav-bar>

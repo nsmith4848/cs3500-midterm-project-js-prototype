@@ -1,4 +1,4 @@
-
+/*
 .nav-item {
   display: inline-block;
   padding: 8px;
@@ -9,6 +9,17 @@
 
 .current-nav-item {
   background-color: #0ff;
+}
+*/
+
+.pokedex-entry {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+}
+.pokedex-entry span {
+  flex-grow: 1;
+  text-align: center;
 }
 
 .pokemon-card {

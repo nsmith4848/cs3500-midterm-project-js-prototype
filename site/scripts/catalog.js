@@ -25,13 +25,21 @@ getPokedexEntries();
         'entry'
       ],
       template: `
-        <li>
-          <a :href="entry.detailsUrl">
+        <li class="list-group-item list-group-item-action">
+          <a :href="entry.detailsUrl"
+            class="pokedex-entry">
+            <img src="./images/pokeball.svg"
+              width="16px"
+              height="16px"/>
+              
             <span>
               {{ entry.pokemonId }}
+              {{ entry.pokemonSpeciesName }}
             </span>
 
-            {{ entry.pokemonSpeciesName }}
+            <img src="./images/pokeball.svg"
+              width="16px"
+              height="16px"/>
           </a>
         </li>
       `

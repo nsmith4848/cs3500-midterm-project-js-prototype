@@ -237,6 +237,27 @@
 /********************************/
 
   Vue.component(
+    'nav-item',
+    {
+      props: [
+        'page',
+        'isCurrentPage'
+      ],
+      template: `
+        <li v-bind:class='
+              isCurrentPage
+              ? "active"
+              : ""
+            '>
+          <a v-bind:href='page.url'>
+            {{ page.title }}
+          </a>
+        </li>
+      `
+    }
+  )
+
+  Vue.component(
     'nav-bar',
     {
       props: [
@@ -244,17 +265,15 @@
         'currentPageId'
       ],
       template: `
-        <nav>
-          <a v-for='page in pages'
-            v-bind:key='page.id'
-            v-bind:href='page.url'
-            v-bind:class='
-              currentPageId === page.id
-              ? "nav-item current-nav-item"
-              : "nav-item"
-            '>
-            {{ page.title }}
-          </a>
+        <nav class="navbar navbar-default"
+          role="navigation">
+          <ul class="nav navbar-nav">
+            <nav-item v-for='page in pages'
+              v-bind:key='page.id'
+              v-bind:page='page'
+              v-bind:isCurrentPage='currentPageId === page.id'>
+            </nav-item>
+          </ul>
         </nav>
       `
     }
