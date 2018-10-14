@@ -11,15 +11,16 @@
   var apiPokedexUrl = baseApiUrl
   + 'pokedex/2/';
   var apiPokemonUrl = baseApiUrl
-  + 'pokemon/'; // pokemonId appended
+  + 'pokemon/'; // pokemonId or speciesName appended
   var apiSpeciesUrl = baseApiUrl
-  + 'pokemon-species/'; // pokemonSpecies appended
+  + 'pokemon-species/'; // pokemonId or speciesName appended
 
-  var spritesUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' // pokemonId and png extension appended
+  var spritesUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'
+  // pokemonId and png extension appended
 
 
   // site url stuff
-  var detailsUrl = "./details.html?pokemon-species="; // pokemonSpecies appended
+  var detailsUrl = "./details.html?pokemon="; // pokemonId
 
   var pages = [
     {
@@ -52,29 +53,29 @@
 /********************************/
 
   function detailsUrlForPokemon(
-    pokemonSpecies
+    pokemon
   ) {
     let url = detailsUrl
-    + pokemonSpecies;
+    + pokemon;
 
     return url;
   } // detailsUrlForPokemon
 
   function apiPokemonUrlForPokemon(
-    pokemonSpecies
+    pokemon
   ) {
     let url = apiPokemonUrl
-    + pokemonSpecies
+    + pokemon
     + '/';
 
     return url;
   } // apiPokemonUrlForPokemon
 
   function apiSpeciesUrlForPokemon(
-    pokemonSpecies
+    pokemon
   ) {
     let url = apiSpeciesUrl
-    + pokemonSpecies
+    + pokemon
     + '/';
 
     return url;
@@ -105,6 +106,31 @@
 
     return base64String;
   } // convertImageToBase64String
+
+
+  function localStorageSpriteKeyForPokemon(
+    pokemon
+  ) {
+    // specify id or species name?
+    // or search pokedex for whichever
+    // one is used if given the other?
+    let spriteKey = pokemon
+    + '/sprite-string';
+
+    return spriteKey;
+  } // localStorageSpriteKeyForPokemon
+
+  function localStorageDetailsKeyForPokemon(
+    pokemon
+  ) {
+    // specify id or species name?
+    // or search pokedex for whichever
+    // one is used if given the other?
+    let detailsKey = pokemon
+    + '/details';
+
+    return detailsKey;
+  } // localStorageDetailsKeyForPokemon
 
 /********************************/
 
@@ -247,9 +273,12 @@
   function retrieveSpriteStringFromLocalStorage(
     pokemonId
   ) {
-    // try local storage
-    let storedString = localStorage.getItem(
+    let key = localStorageSpriteKeyForPokemon(
       pokemonId
+    );
+
+    let storedString = localStorage.getItem(
+      key
     );
 
     return storedString;
@@ -260,8 +289,9 @@
     spriteString,
     pokemonId
   ) {
-    let key = pokemonId
-      + '/sprite-string';
+    let key = localStorageSpriteKeyForPokemon(
+      pokemonId
+    );
 
     localStorage.setItem(
       key,
@@ -300,6 +330,8 @@
           resolve(
             spriteString
           );
+
+          return;
         }
 
         let spriteUrl = spriteUrlForPokemon(

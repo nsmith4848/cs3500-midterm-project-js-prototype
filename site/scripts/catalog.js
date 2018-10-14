@@ -63,7 +63,7 @@ getPokedexEntries();
           pokemonId: item.entry_number,
           pokemonSpeciesName: item.pokemon_species.name,
           detailsUrl: detailsUrlForPokemon(
-            item.pokemon_species.name
+            item.entry_number
           )
         };
 
@@ -202,15 +202,9 @@ getPokedexEntries();
             1
           );
 
-          console.log(
-            'after resolve'
-          );
           return;
         }
 
-        console.log(
-          'before request'
-        );
 
         makeRequestToApi(
           apiPokedexUrl

@@ -24,6 +24,18 @@
         v-bind:current-page-id="currentPageId">
       </nav-bar>
 
+      <nav>
+        <a v-if="previousPokemonUrl"
+          v-bind:href="previousPokemonUrl">
+          Previous
+        </a>
+
+        <a v-if="nextPokemonUrl"
+          v-bind:href="nextPokemonUrl">
+          Next
+        </a>
+      </nav>
+
       <pokemon-details-card v-bind:details="pokemonDetails">
       </pokemon-details-card>
     </div>

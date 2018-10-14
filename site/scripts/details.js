@@ -1,13 +1,7 @@
 
 /*
-details from /pokemon/
-  height
-  weight
-  sprite
-  types
 
-details from /pokemon-species/
-  flavor text entries
+TODO: convert to use pokemonId in the url...
 
 
 todo:
@@ -76,13 +70,19 @@ let urlSearchParams = new URLSearchParams(
   window.location.search
 );
 
-var pokemonSpecies = urlSearchParams.get(
-  'pokemon-species'
+var pokemon = urlSearchParams.get(
+  'pokemon'
+);
+var previousPokemonUrl = detailsUrlForPokemon(
+  pokemon - 1
+);
+var nextPokemonUrl = detailsUrlForPokemon(
+  pokemon + 1
 );
 
 //*/ could do it like
-getDetailsForPokemonSpecies(
-  pokemonSpecies
+getDetailsForPokemon(
+  pokemon
 )
 //*/
 .then(
@@ -185,10 +185,14 @@ getDetailsForPokemonSpecies(
 /********************************/
 
   function retrieveDetailsFromLocalStorage(
-    pokemonSpecies
+    pokemon
   ) {
+    let key = localStorageDetailsKeyForPokemon(
+      pokemon
+    );
+
     let storedDetails = localStorage.getItem(
-      pokemonSpecies
+      key
     );
 
     return storedDetails;
@@ -212,13 +216,17 @@ getDetailsForPokemonSpecies(
       pokemonDetails
     );
 
+    let key = localStorageDetailsKeyForPokemon(
+      pokemonDetails.pokemonId
+    );
+
     localStorage.setItem(
-      pokemonDetails.speciesName,
+      key,
       storedDetails
     );
     
     return;
-  }
+  } // storeDetailsForPokemon
 
 /********************************/
 
@@ -228,13 +236,13 @@ getDetailsForPokemonSpecies(
 /********************************/
 
   function makeRequestsForPokemonDetails(
-    pokemonSpecies
+    pokemon
   ) {
     let speciesUrl = apiSpeciesUrlForPokemon(
-      pokemonSpecies
+      pokemon
     )
     let pokemonUrl = apiPokemonUrlForPokemon(
-      pokemonSpecies
+      pokemon
     );
 
 
@@ -327,8 +335,10 @@ getDetailsForPokemonSpecies(
     let combinedDetails = {
       pokemonId: pokemonData.id,
       speciesName: speciesData.name,
-      weight: pokemonData.weight / 10,
-      height: pokemonData.height / 10,
+      // api uses tenths of a kg for weight
+      // and tenths of a meter for height...
+      weight: pokemonData.weight / 10, // kg
+      height: pokemonData.height / 10, // m
       flavorTextPart1: flavorTextPart1,
       flavorTextPart2: flavorTextPart2,
       type1: type1,
@@ -362,8 +372,8 @@ getDetailsForPokemonSpecies(
     return promise;
   } // addSpriteStringToDetails
 
-  function getDetailsForPokemonSpecies(
-    pokemonSpecies
+  function getDetailsForPokemon(
+    pokemon
   ) {
     let promise = new Promise(
       function(
@@ -371,7 +381,7 @@ getDetailsForPokemonSpecies(
         reject
       ) {
         let storedDetails = retrieveDetailsFromLocalStorage(
-          pokemonSpecies
+          pokemon
         );
 
         if (
@@ -382,8 +392,6 @@ getDetailsForPokemonSpecies(
             storedDetails
           );
 
-          // ?? return details or just set
-          // pokemonDetails to/with them
           resolve(
             restoredDetails
           );
@@ -393,7 +401,7 @@ getDetailsForPokemonSpecies(
 
 
         makeRequestsForPokemonDetails(
-          pokemonSpecies
+          pokemon
         )
         .then(
           function(
@@ -427,9 +435,6 @@ getDetailsForPokemonSpecies(
                   details
                 );
 
-                // make new details object and
-                // replace existing/displayed
-                // details object or update values?
                 resolve(
                   details
                 );
@@ -442,10 +447,6 @@ getDetailsForPokemonSpecies(
                 );
               }
             ); // then
-
-            console.log(
-              'reached call after nested resolve'
-            );
 
           }
         ) // then
@@ -466,7 +467,7 @@ getDetailsForPokemonSpecies(
     ); // promise
 
     return promise;
-  } // getDetailsForPokemonSpecies
+  } // getDetailsForPokemon
 
 
 /********************************/
@@ -480,7 +481,9 @@ new Vue(
     data: {
       pages: pages,
       currentPageId: 'details',
-      pokemonDetails: pokemonDetails
+      pokemonDetails: pokemonDetails,
+      previousPokemonUrl: previousPokemonUrl,
+      nextPokemonUrl: nextPokemonUrl
     }
   }
 );
