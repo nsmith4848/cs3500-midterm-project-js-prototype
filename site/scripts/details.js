@@ -55,7 +55,7 @@ var placeholderDetails = new PokemonDetails(
     speciesName: 'loading',
     weight: 'loading',
     height: 'loading',
-    spriteString: './images/missingo.png',
+    spriteString: './images/pokeball.svg',//'./images/missingo.png',
     flavorTextPart1: 'loading...',
     flavorTextPart2: 'loading...',
     type1: 'bird',
@@ -70,15 +70,30 @@ let urlSearchParams = new URLSearchParams(
   window.location.search
 );
 
-var pokemon = urlSearchParams.get(
-  'pokemon'
+var pokemon = Number.parseInt(
+  urlSearchParams.get(
+    'pokemon'
+  )
 );
+
+
 var previousPokemonUrl = detailsUrlForPokemon(
   pokemon - 1
 );
 var nextPokemonUrl = detailsUrlForPokemon(
   pokemon + 1
 );
+if (
+  pokemon === 1
+) {
+  previousPokemonUrl = null;
+}
+else if (
+  pokemon === 151
+) {
+  nextPokemonUrl = null;
+}
+
 
 //*/ could do it like
 getDetailsForPokemon(
