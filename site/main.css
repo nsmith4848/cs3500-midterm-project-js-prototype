@@ -41,3 +41,27 @@
 
   background-color: greenyellow;
 }
+
+.backgroundclr {
+  background-color: #cc0000;
+
+  background-size: cover;
+
+  background-position: center center;
+
+  background-repeat: no-repeat;
+
+  width: 100%;
+}
+
+.screenclr {
+  background-color: grey;
+
+  background-size: cover;;
+
+  background-position: center center;
+
+  background-repeat: no-repeat;
+
+  width: 100%;
+}
