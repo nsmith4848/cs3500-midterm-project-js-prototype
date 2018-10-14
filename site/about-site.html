@@ -22,27 +22,40 @@
   </head>
 
   <body>
+    <div class="jumbotron text-center">
+  <h2>Welcome to Our Pokedex Implementation!</h2>
+</div>
     <div id="app-container"
       class="container">
       <nav-bar v-bind:pages="pages"
         v-bind:current-page-id="currentPageId">
       </nav-bar>
+<div class="container">
+      <h2>Welcome to Our Instructions!</h2>
 
-      <h3>
-        about the site!
-      </h3>
+  <div class="row">
+    <p>In order to build this website, we utilized Vue.js.  We did this in order to maximize the usability of information from the pokeapi.  We designed a template based off clicking on a pokemon from the catalog page.  From there, we developed a page template for displaying the details of each pokemon.   Since we did not want to hard code each individual pokemon as a single page, we instead used this template with Vue.js to make all of the pokemon displayable via javascript on one page.  This seemed like the preferable option considering that there are 150 pokemon in the base games, and a page for each would mean 154 pages to code overall.  The pokeapi made collecting the data and posting it to our website much easier and quicker.  We decided to use a navbar in order to allow for easy navigation in the first four pages.  However, since the details page requires a pokemon to be selected from the catalog page, we decided to not include it in the navbar.</p>
+  </div>
+  <br>
+  <br>
+  <br>
+  <div class="row">
+  <div class="col-sm-4">
+    <h3>Home/Index Page</h3>
+    <p>The function of the website is built like a pokedex from the original series.  You are initially brought to the home or index page.  From there you can use the nav bar or other links to select the readme page, the about us page, or the catalog page.  You are currently on the readme page, which shows how to use the website.</p>
+  </div>
+    <div class="col-sm-4">
+      <h3>About Us Page</h3>
+      <p>The about us page displays some information about the developers of this website.  Basically it shows what each of us did to collaborate on this site.</p>
 
-      <p>
-        purpose
-      </p>
+    </div>
+    <div class="col-sm-4">
+      <h3>Catalog Page</h3>
+      <p>The catalog page is where you will find out about various pokemon.  There will be a list of the base 150.  You will click on the name of one that you are interested in.  This will then take you to a separate page with the name, weight, flavor text, and sprite of that specific pokemon.  You can then use the navbar or the link at the bottom to return to the catalog page and select another.</p>
+    </div>
+    </div>
+  </div>
 
-      <p>
-        tech used to make
-      </p>
-
-      <p>
-        links to things used
-      </p>
     </div>
 
     <script src="./scripts/about-site.js"

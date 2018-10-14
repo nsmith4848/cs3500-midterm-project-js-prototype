@@ -22,24 +22,37 @@
   </head>
 
   <body>
+    <div class="jumbotron text-center">
+  <h2>Welcome to Our Pokedex Implementation!</h2>
+</div>
     <div id="app-container"
       class="container">
       <nav-bar v-bind:pages="pages"
         v-bind:current-page-id="currentPageId">
       </nav-bar>
+      <div class="media">
+        <div class="media-left media-middle">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Pokedex-German.jpg" alt="Pokedex" class="media-object" style="width:400px">
+      </div>
+        <div class="media-body">
+          <p>Please enjoy our take on the original pokedex!</p>
 
-      <h3>
-        welcome to the site!
-      </h3>
+          <p>Note that the details page is currently inaccessible.  Due to the nature of our site, you must first select a pokemon from the catalog page in order to view its details.
 
-      <p>
-        a few words introducing the site
-      </p>
+          <p>We <strong>strongly</strong> recommend consulting the <a href = "README.html">README page </a> before moving on</p>
 
-      <p>
-        5 pages, with details accessed by selecting an entry in the pokedex
-      </p>
-    </div>
+            <p>Afterwards, please use the catalog/pokedex page <a href = "pokedexCatalog.html">catalog/pokedex page</a></p>
+
+            <p>Once that is done, you can view our contributions <a href="aboutUs.html">here</a></p>
+        </div>
+      </div>
+      <br><br><br>
+      <a href = "about-site.html"><button type="button" class="btn btn-primary btn-block"name="button">ReadME Page</button></a>
+      <br><br><br>
+      <a href="catalog.html"><button type="button" class="btn btn-primary btn-block"name="button">Catalog Page</button></a>
+      <br><br><br>
+      <a href = "about-us.html"><button type="button" class="btn btn-primary btn-block"name="button">AboutUs Page</button></a>
+
 
     <script src="./scripts/welcome.js"
       defer="defer">

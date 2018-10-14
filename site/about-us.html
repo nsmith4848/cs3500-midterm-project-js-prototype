@@ -22,23 +22,42 @@
   </head>
 
   <body>
+    <div class="jumbotron text-center">
+  <h2>Welcome to Our Pokedex Implementation!</h2>
+</div>
     <div id="app-container"
       class="container">
       <nav-bar v-bind:pages="pages"
         v-bind:current-page-id="currentPageId">
       </nav-bar>
 
-      <h3>
-        about the makers of the site
-      </h3>
+      <h2>Welcome to Our Crew!</h2>
 
-      <p>
-        students at wmu
-      </p>
+  <p>We are students at WMU working in CS3500, also known as Intro to Web Technologies.</p>
 
-      <p>
-        what we each did
-      </p>
+  <div class="media">
+    <div class="media-left">
+  <img src="./images/11448054.jpg" class="media-object"alt="Picture of Josh">
+</div>
+  <div class="media-body">
+    <p>Josh built the template for this website.  He also used Vue.js to build the details page and the catalog page.  He did the research to figure out how to develop the pokedex and shared it with Nic.  He has had previous experience with web development, which is reflected in the work that he did.</p>
+
+    <p>Josh is also a member of the Computer Club of Western Michigan University.</p>
+    </div>
+  </div>
+  <br><br><br>
+
+  <div class="media">
+    <div class="media-body">
+      <p>Nic designed the background of the site and the html for the about and about us pages.  He found images for each of these and wrote the paragraphs associated with those pages.  He also developed some css in relation to those pages.</p>
+
+      <p>Nic is also a member of the Computer Club of Western Michigan University.</p>
+    </div>
+    <div class="media-right">
+    <img src="./images/20181012_141829.jpg" width = "400" height="450" alt="Picture of Nic" class="alignself-center mr-3">
+  </div>
+  </div>
+      </div>
     </div>
 
     <script src="./scripts/about-us.js"
