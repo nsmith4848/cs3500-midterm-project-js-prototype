@@ -26,8 +26,8 @@ class PokemonDetails {
 
       spriteString,
 
-      flavorTextRed,
-      flavorTextBlue,
+      flavorTextPart1,
+      flavorTextPart2,
 
       type1,
       type2
@@ -41,8 +41,8 @@ class PokemonDetails {
 
     this.spriteString = spriteString;
 
-    this.flavorTextRed = flavorTextRed;
-    this.flavorTextBlue = flavorTextBlue;
+    this.flavorTextPart1 = flavorTextPart1;
+    this.flavorTextPart2 = flavorTextPart2;
 
     this.type1 = type1;
     this.type2 = type2;
@@ -62,8 +62,8 @@ var placeholderDetails = new PokemonDetails(
     weight: 'loading',
     height: 'loading',
     spriteString: './images/missingo.png',
-    flavorTextRed: 'loading...',
-    flavorTextBlue: 'loading...',
+    flavorTextPart1: 'loading...',
+    flavorTextPart2: 'loading...',
     type1: 'bird',
     type2: 'normal'
   }
@@ -84,6 +84,7 @@ var pokemonSpecies = urlSearchParams.get(
 getDetailsForPokemonSpecies(
   pokemonSpecies
 )
+//*/
 .then(
   function(
     details
@@ -97,10 +98,12 @@ getDetailsForPokemonSpecies(
     pokemonDetails.weight = details.weight;
     pokemonDetails.height = details.height;
     pokemonDetails.spriteString = details.spriteString;
-    pokemonDetails.flavorTextRed = details.flavorTextRed;
-    pokemonDetails.flavorTextBlue = details.flavorTextBlue;
+    pokemonDetails.flavorTextPart1 = details.flavorTextPart1;
+    pokemonDetails.flavorTextPart2 = details.flavorTextPart2;
     pokemonDetails.type1 = details.type1;
     pokemonDetails.type2 = details.type2;
+
+    return details;
   }
 )
 .catch(
@@ -165,14 +168,9 @@ getDetailsForPokemonSpecies(
           </p>
 
           <p>
-            {{ details.flavorTextRed }}
+            {{ details.flavorTextPart1 }}
+            {{ details.flavorTextPart2 }}
           </p>
-
-          <!-- no differences between version descriptions
-          <p>
-            {{ details.flavorTextBlue }}
-          </p>
-          -->
         </div>
       </div>
       `
@@ -210,7 +208,15 @@ getDetailsForPokemonSpecies(
   function storeDetailsForPokemon(
     pokemonDetails
   ) {
-    // todo
+    let storedDetails = JSON.stringify(
+      pokemonDetails
+    );
+
+    localStorage.setItem(
+      pokemonDetails.speciesName,
+      storedDetails
+    );
+    
     return;
   }
 
@@ -265,8 +271,8 @@ getDetailsForPokemonSpecies(
 
     let flavorTextEntries = speciesData.flavor_text_entries;
 
-    let flavorTextRed;
-    let flavorTextBlue;
+    let flavorTextPart1;
+    let flavorTextPart2;
 
     flavorTextEntries.forEach(
       ( entry ) => {
@@ -280,19 +286,14 @@ getDetailsForPokemonSpecies(
             || version === 'blue'
           )
         ) {
-          switch (
-            version
-          ) {
-            case 'red' : {
-              flavorTextRed = entry.flavor_text;
-            }
-            break;
+          let flavorText = entry.flavor_text.split(
+            '\f'
+          );
 
-            case 'blue' : {
-              flavorTextBlue = entry.flavor_text;
-            }
-            break;
-          } // switch
+          flavorTextPart1 = flavorText[ 0 ];
+          flavorTextPart2 = flavorText[ 1 ];
+
+          return;
         }
       } // callback
     ); // for each
@@ -320,7 +321,7 @@ getDetailsForPokemonSpecies(
     }
 
     console.log(
-      flavorTextBlue
+      flavorTextPart2
     );
 
     let combinedDetails = {
@@ -328,8 +329,8 @@ getDetailsForPokemonSpecies(
       speciesName: speciesData.name,
       weight: pokemonData.weight / 10,
       height: pokemonData.height / 10,
-      flavorTextRed: flavorTextRed,
-      flavorTextBlue: flavorTextBlue,
+      flavorTextPart1: flavorTextPart1,
+      flavorTextPart2: flavorTextPart2,
       type1: type1,
       type2: type2
     };
@@ -386,6 +387,8 @@ getDetailsForPokemonSpecies(
           resolve(
             restoredDetails
           );
+
+          return;
         }
 
 
