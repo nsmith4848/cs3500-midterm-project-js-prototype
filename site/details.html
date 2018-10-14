@@ -3,6 +3,10 @@
   <head>
     <meta charset="utf-8"/>
 
+    <title>
+      Pokemon Details
+    </title>
+
     <meta name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
@@ -28,17 +32,19 @@
         v-bind:current-page-id="currentPageId">
       </nav-bar>
 
-      <nav>
-        <a v-if="previousPokemonUrl"
+      <div class="row">
+        <a class="col-md-6 previous-pokemon-link btn btn-default"
+          v-show="previousPokemonUrl"
           v-bind:href="previousPokemonUrl">
           Previous
         </a>
 
-        <a v-if="nextPokemonUrl"
+        <a class="col-md-6 next-pokemon-link btn btn-default"
+          v-show="nextPokemonUrl"
           v-bind:href="nextPokemonUrl">
           Next
         </a>
-      </nav>
+      </div>
 
       <pokemon-details-card v-bind:details="pokemonDetails">
       </pokemon-details-card>
