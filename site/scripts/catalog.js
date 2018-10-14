@@ -1,19 +1,5 @@
 
 
-var pokedexEntries = [];
-// initialized to empty array
-// avoid it being undefined
-// when vue components access it
-
-
-getPokedexEntries();
-// asynchronously gets the pokedex entries
-// either by restoring from local storage
-// or by requesting from the api and then
-// adds them to the pokedex entries
-
-
-
 /********************************/
 /****  template definitions  ****/
 /********************************/
@@ -56,11 +42,6 @@ getPokedexEntries();
   function parseResponseIntoPokedexEntries(
     response
   ) {
-    /*/
-    console.log(
-      'parsing response data'
-    );
-    //*/
     let responseData = JSON.parse(
       response
     );
@@ -74,13 +55,6 @@ getPokedexEntries();
             item.entry_number
           )
         };
-
-        /*/
-        console.log(
-          'entry: '
-          + pokedexEntry
-        );
-        //*/
         
         pokedexEntries.push(
           pokedexEntry
@@ -174,13 +148,12 @@ getPokedexEntries();
     return;
   } // restoreEntries
 
-
 /********************************/
 
 
 
 /********************************/
-/****  domain service?  ****/
+/****  domain  ****/
 /********************************/
 
   function getPokedexEntries() {
@@ -197,19 +170,11 @@ getPokedexEntries();
           storedEntries !== undefined
           && storedEntries !== null
         ) {
-          console.log(
-            'found stored entries'
-          );
           restoreEntries(
             storedEntries
           );
 
-          // could resolve entries and have
-          // another function display them
-          resolve(
-            1
-          );
-
+          resolve();
           return;
         }
 
@@ -221,16 +186,14 @@ getPokedexEntries();
           function( // accept callback
             response
           ) {
-            console.log(
-              'received requested entries'
-            )
             parseResponseIntoPokedexEntries(
               response
             );
 
             // could resolve entries and have
-            // another function display them
+            // another function display them...
             resolve();
+            return;
           } // accept callback
         ) // then
         .catch(
@@ -255,14 +218,31 @@ getPokedexEntries();
 /********************************/
 
 
-// root instance
-new Vue(
-  {
-    el: '#app-container',
-    data: {
-      pages: pages,
-      currentPageId: 'pokedex',
-      entries: pokedexEntries
+/********************************/
+/****  execution  ****/
+/********************************/
+
+  var pokedexEntries = [];
+  // initialized to empty array
+  // avoid it being undefined
+  // when vue components access it
+
+  // root instance
+  new Vue(
+    {
+      el: '#app-container',
+      data: {
+        pages: pages,
+        currentPageId: 'pokedex',
+        entries: pokedexEntries
+      }
     }
-  }
-);
+  );
+
+  getPokedexEntries();
+  // asynchronously gets the pokedex entries
+  // either by restoring from local storage
+  // or by requesting from the api and then
+  // adds them to the pokedex entries
+
+/********************************/

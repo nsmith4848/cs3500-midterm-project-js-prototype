@@ -1,140 +1,43 @@
 
-/*
+/********************************/
+/****  model definitions  ****/
+/********************************/
 
-TODO: convert to use pokemonId in the url...
+  class PokemonDetails {
+    constructor(
+      {
+        pokemonId,
+        speciesName,
 
+        weight,
+        height,
 
-todo:
-  genus (Foo Pokemon)
+        spriteString,
 
+        flavorTextPart1,
+        flavorTextPart2,
 
-*/
-class PokemonDetails {
-  constructor(
-    {
-      pokemonId,
-      speciesName,
+        type1,
+        type2
+      }
+    ) {
+      this.pokemonId = pokemonId;
+      this.speciesName = speciesName;
 
-      weight,
-      height,
+      this.weight = weight;
+      this.height = height;
 
-      spriteString,
+      this.spriteString = spriteString;
 
-      flavorTextPart1,
-      flavorTextPart2,
+      this.flavorTextPart1 = flavorTextPart1;
+      this.flavorTextPart2 = flavorTextPart2;
 
-      type1,
-      type2
-    }
-  ) {
-    this.pokemonId = pokemonId;
-    this.speciesName = speciesName;
+      this.type1 = type1;
+      this.type2 = type2;
+    } // constructor
+  } // PokemonDetails
 
-    this.weight = weight;
-    this.height = height;
-
-    this.spriteString = spriteString;
-
-    this.flavorTextPart1 = flavorTextPart1;
-    this.flavorTextPart2 = flavorTextPart2;
-
-    this.type1 = type1;
-    this.type2 = type2;
-
-    // found in versions?
-  } // constructor
-} // PokemonDetails
-
-
-// use pokeball or something while loading
-// and only use missingo for error?
-
-var placeholderDetails = new PokemonDetails(
-  {
-    pokemonId: '000',
-    speciesName: 'loading',
-    weight: 'loading',
-    height: 'loading',
-    spriteString: './images/pokeball.svg',//'./images/missingo.png',
-    flavorTextPart1: 'loading...',
-    flavorTextPart2: 'loading...',
-    type1: 'bird',
-    type2: 'normal'
-  }
-);
-
-var pokemonDetails = placeholderDetails;
-
-
-let urlSearchParams = new URLSearchParams(
-  window.location.search
-);
-
-var pokemon = Number.parseInt(
-  urlSearchParams.get(
-    'pokemon'
-  )
-);
-
-
-var previousPokemonUrl = detailsUrlForPokemon(
-  pokemon - 1
-);
-var nextPokemonUrl = detailsUrlForPokemon(
-  pokemon + 1
-);
-if (
-  pokemon === 1
-) {
-  previousPokemonUrl = null;
-}
-else if (
-  pokemon === 151
-) {
-  nextPokemonUrl = null;
-}
-
-
-//*/ could do it like
-getDetailsForPokemon(
-  pokemon
-)
-//*/
-.then(
-  function(
-    details
-  ) {
-    // replacing object does not work
-    // vue still uses the old one
-    //pokemonDetails = details;
-
-    pokemonDetails.pokemonId = details.pokemonId;
-    pokemonDetails.speciesName = details.speciesName;
-    pokemonDetails.weight = details.weight;
-    pokemonDetails.height = details.height;
-    pokemonDetails.spriteString = details.spriteString;
-    pokemonDetails.flavorTextPart1 = details.flavorTextPart1;
-    pokemonDetails.flavorTextPart2 = details.flavorTextPart2;
-    pokemonDetails.type1 = details.type1;
-    pokemonDetails.type2 = details.type2;
-
-    return details;
-  }
-)
-.catch(
-  function(
-    reason
-  ) {
-    //pokemonDetails = errorDetails; // TODO
-
-    console.error(
-      reason
-    );
-  }
-);
-
-
-
+/********************************/
 
 
 /********************************/
@@ -148,40 +51,50 @@ getDetailsForPokemon(
         'details'
       ],
       template: `
-      <div class="pokemon-card">
-        <h3>
-          {{ details.speciesName }}
-        </h3>
+      <div class="container panel panel-default pokemon-card">
 
-        <div>
-          <img class="pokemon-card-sprite"
-            v-bind:src='
-              details.spriteString
-              ? details.spriteString
-              : "./images/missingo.png"
-            '>
+        <div class="row panel-heading">
+          <h2 class="panel-title">
+            {{ details.speciesName }}
+          </h2>
+        </div>
 
-          <p>
-            HT: {{ details.height }} m
-          </p>
+        <div class="row panel-body">
+          <div class="col-md-6">
+            <img class="pokemon-card-sprite center-block"
+              v-bind:src='
+                details.spriteString
+                ? details.spriteString
+                : "./images/missingo.png"
+              '
+              width="192px"
+              height="192px"/>
+          </div>
 
-          <p>
-            WT: {{ details.weight }} kg
-          </p>
+          <div class="col-md-6">
+            <p>
+              Height: {{ details.height }} m
+            </p>
 
-          <p>
-            Types:
-            <br>
+            <p>
+              Weight: {{ details.weight }} kg
+            </p>
 
-            <span>
-              {{ details.type1 }}
-            </span>
+            <p>
+              Types:
 
-            <span v-if="details.type2">
-              {{ details.type2 }}
-            </span>
-          </p>
+              <span>
+                {{ details.type1 }}
+              </span>
 
+              <span v-if="details.type2">
+                {{ details.type2 }}
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <div class="row panel-body">
           <p>
             {{ details.flavorTextPart1 }}
             {{ details.flavorTextPart2 }}
@@ -343,10 +256,6 @@ getDetailsForPokemon(
       type2 = types[ 0 ].type.name;
     }
 
-    console.log(
-      flavorTextPart2
-    );
-
     let combinedDetails = {
       pokemonId: pokemonData.id,
       speciesName: speciesData.name,
@@ -367,25 +276,8 @@ getDetailsForPokemon(
 
 
 /********************************/
-/****  domain service?  ****/
+/****  domain  ****/
 /********************************/
-
-  function addSpriteStringToDetails(
-    details
-  ) {
-    let promise = getSpriteStringForPokemon(
-      details.pokemonId
-    )
-    .then(
-      ( spriteString ) => {
-        details.spriteString = spriteString;
-
-        return details;
-      }
-    );
-
-    return promise;
-  } // addSpriteStringToDetails
 
   function getDetailsForPokemon(
     pokemon
@@ -485,22 +377,131 @@ getDetailsForPokemon(
   } // getDetailsForPokemon
 
 
+  function updateDisplayedDetails(
+    details
+  ) {
+    for (
+      property in pokemonDetails
+    ) {
+      pokemonDetails[ property ] = details[ property ];
+    }
+
+    return;
+  } // updateDisplayedDetails
+
 /********************************/
 
 
+/********************************/
+/****  execution  ****/
+/********************************/
 
-// root instance
-new Vue(
-  {
-    el: '#app-container',
-    data: {
-      pages: pages,
-      currentPageId: 'details',
-      pokemonDetails: pokemonDetails,
-      previousPokemonUrl: previousPokemonUrl,
-      nextPokemonUrl: nextPokemonUrl
+  var placeholderDetails = new PokemonDetails(
+    {
+      pokemonId: '000',
+      speciesName: 'loading',
+      weight: 'loading',
+      height: 'loading',
+      spriteString: './images/pokeball.svg',
+      flavorTextPart1: 'loading...',
+      flavorTextPart2: '',
+      type1: 'loading',
+      type2: ''
     }
+  );
+  var errorDetails = new PokemonDetails(
+    {
+      pokemonId: '000',
+      speciesName: 'error',
+      weight: '00',
+      height: '00',
+      spriteString: './images/missingo.png',
+      flavorTextPart1: 'error...',
+      flavorTextPart2: '',
+      type1: 'bird',
+      type2: 'normal'
+    }
+  );
+
+  var pokemonDetails = placeholderDetails;
+
+
+  let urlSearchParams = new URLSearchParams(
+    window.location.search
+  );
+
+  var pokemon = Number.parseInt(
+    urlSearchParams.get(
+      'pokemon'
+    )
+  );
+
+
+  var previousPokemonUrl = detailsUrlForPokemon(
+    pokemon - 1
+  );
+  var nextPokemonUrl = detailsUrlForPokemon(
+    pokemon + 1
+  );
+
+  if (
+    pokemon === 1
+  ) {
+    previousPokemonUrl = null;
   }
-);
+  else if (
+    pokemon === 151
+  ) {
+    nextPokemonUrl = null;
+  }
 
 
+
+  // root instance
+  new Vue(
+    {
+      el: '#app-container',
+      data: {
+        pages: pages,
+        currentPageId: 'details',
+        pokemonDetails: pokemonDetails,
+        previousPokemonUrl: previousPokemonUrl,
+        nextPokemonUrl: nextPokemonUrl
+      }
+    }
+  );
+
+
+  getDetailsForPokemon(
+    pokemon
+  )
+  .then(
+    function(
+      details
+    ) {
+      // replacing object does not work
+      // vue still uses the old one
+      //pokemonDetails = details;
+
+      updateDisplayedDetails(
+        details
+      );
+
+      return details;
+    }
+  )
+  .catch(
+    function(
+      reason
+    ) {
+      updateDisplayedDetails(
+        errorDetails
+      );
+
+      console.error(
+        reason
+      );
+    }
+  );
+
+/********************************/

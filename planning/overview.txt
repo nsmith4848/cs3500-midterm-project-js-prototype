@@ -1,72 +1,23 @@
 topic
   pokemon in the original games
 
-pages
-  landing/home
-
-  catalog
-
-  details/profile
-    name
-
-    id
-
-    sprite
-
-    genus
-
-    height
-    weight
-
-    description/flavor text
-
-    types
-
-    found in versions?
-
-  about site
-    authors
-
-    technology used
-
 
 todo:
-  rework js
-    common stuff
-      api calls
-    
-    catalog stuff
-      parsing call into pokedex entries
-
-    details stuff
-      parsing calls into pokedex profile
-
-    persistance using local storage
-      store/restore functions
-
-  templates
-
-  check if onload callback can be written without lambda
-    ie just xhr.onload = loadHandler;
 
   fetch all sprites?
     download all 151 sprites,
     convert each to base64,
     and save in local storage
 
-  missingo on loading page?
   
 
 stretch goals:
   models for each template to use
     ie mvc style
 
-  organize into pages and common?
-    ie feature modules instead of layers
-
   navigate pokedex using keyboard
 
   show sprite for hovered/focused pokedex entry
 
-  search page?
+  search bar/page?
     
