@@ -73,6 +73,10 @@
 
           <div class="col-md-6">
             <p>
+              No. {{ details.pokemonId }}
+            </p>
+
+            <p>
               Height: {{ details.height }} m
             </p>
 
