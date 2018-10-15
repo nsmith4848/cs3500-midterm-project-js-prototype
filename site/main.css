@@ -1,8 +1,24 @@
 
+body {
+  background-color: darkgrey;
+}
+
+#app-container {
+  min-height: 600px;
+
+  background-color: ivory;
+}
+
+.pokedex {
+  width: 80%;
+  max-width: 600px;
+}
 .pokedex-entry {
   display: flex;
   align-content: center;
   justify-content: space-between;
+
+  text-transform: capitalize;
 }
 .pokedex-entry span {
   flex-grow: 1;
@@ -21,7 +37,11 @@
 .pokemon-card {
   width: 80%;
   max-width: 600px;
+<<<<<<< HEAD
   background-color: gray;
+=======
+  margin-top: 16px;
+>>>>>>> upstream/master
 }
 .pokemon-card h2 {
   text-align: center;
