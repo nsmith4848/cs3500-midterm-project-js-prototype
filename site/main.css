@@ -58,3 +58,21 @@ body {
 
   background-color: lightgrey;
 }
+
+.about-general {
+  width: 60%;
+
+  text-align: center;
+}
+.dev-profiles {
+  display: flex;
+  align-content: center;
+  justify-content: space-around;
+
+  text-align: center;
+}
+.dev-profile-card {
+  width: 40%;
+  max-width: 400px;
+}
+
