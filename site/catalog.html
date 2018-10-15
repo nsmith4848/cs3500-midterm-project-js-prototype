@@ -35,13 +35,13 @@
         v-bind:current-page-id="currentPageId">
       </nav-bar>
 
-      <div class="row screenclr">
+      <div class="row">
         <div class="col-md-3">
           <p>
             space
           </p>
         </div>
-
+        <div class="screenlist">
         <ul v-bind:entries="entries"
           class="list-group col-md-6">
           <li is="pokedex-entry"
@@ -50,6 +50,7 @@
             v-bind:key="entry.pokemonId">
           </li>
         </ul>
+      </div>
 
         <div class="col-md-3">
           <p>

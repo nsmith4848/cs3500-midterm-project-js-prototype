@@ -54,6 +54,14 @@
   width: 100%;
 }
 
+.backgroundclr p, h2 {
+  color: #ffff;
+}
+
+.jumbotron h2{
+  color : #0000ff;
+}
+
 .screenclr {
   background-color: grey;
 
