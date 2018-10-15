@@ -21,6 +21,7 @@
 .pokemon-card {
   width: 80%;
   max-width: 600px;
+  background-color: gray;
 }
 .pokemon-card h2 {
   text-align: center;
@@ -39,7 +40,13 @@
   max-width: 100%;
   max-height: 100%;
 
-  background-color: lightgrey;
+  background-color: gray;
+}
+
+body{
+  margin: 0px;
+   padding: 0px;
+   background-color: ##cc0000;
 }
 
 .backgroundclr {
